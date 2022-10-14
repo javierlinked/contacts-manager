@@ -1,10 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ExchangeController } from './exchange/exchange.controller';
-import { ExchangeService } from './exchange/exchange.service';
+
+import { ContactsService } from './contacts/contacts.service';
+import { ContactsModule } from './contacts/contacts.module';
+import { ContactsController } from './contacts/contacts.controller';
+import { StorageService } from './storage/storage.service';
 
 @Module({
-  imports: [],
-  controllers: [ExchangeController],
-  providers: [ExchangeService],
+  imports: [ContactsModule],
+  controllers: [ContactsController],
+  providers: [ContactsService, StorageService],
 })
 export class AppModule {}
