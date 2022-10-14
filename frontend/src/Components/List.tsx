@@ -16,8 +16,9 @@ export default function List() {
   }, []);
 
   const setLocalData = (contact: Contact) => {
-    const { id, email, address } = contact;
+    const { id, phone, email, address } = contact;
     localStorage.setItem("id", id.toString());
+    localStorage.setItem("phone", phone);
     localStorage.setItem("email", email);
     localStorage.setItem("address", address);
   };
@@ -36,11 +37,18 @@ export default function List() {
 
   return (
     <div>
+      <div>
+        <Link to="/create">
+          <Button> New contact </Button>
+        </Link>
+      </div>
       <Table singleLine>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>First Name</Table.HeaderCell>
-            <Table.HeaderCell>Last Name</Table.HeaderCell>
+            <Table.HeaderCell>Id</Table.HeaderCell>
+            <Table.HeaderCell>Phone</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Address</Table.HeaderCell>
             <Table.HeaderCell>Update</Table.HeaderCell>
             <Table.HeaderCell>Delete</Table.HeaderCell>
           </Table.Row>
@@ -49,9 +57,12 @@ export default function List() {
           {data &&
             data.map((contact: Contact) => (
               <Table.Row key={contact.id}>
+                <Table.Cell>Contact {contact.id}</Table.Cell>
+                <Table.Cell>{contact.phone}</Table.Cell>
                 <Table.Cell>{contact.email}</Table.Cell>
-                <Table.Cell>{contact.address}</Table.Cell>
-
+                <Table.Cell>
+                  <pre>{contact.address}</pre>
+                </Table.Cell>
                 <Table.Cell>
                   <Link to="/Edit">
                     <Button onClick={() => setLocalData(contact)}> ✍ </Button>
