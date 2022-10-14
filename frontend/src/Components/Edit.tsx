@@ -14,21 +14,17 @@ export default function Edit() {
   const [address, setAddress] = useState("");
 
   useEffect(() => {
-    const id1 = localStorage.getItem("id") || "";
-    const phone1 = localStorage.getItem("phone") || "";
-    const email1 = localStorage.getItem("email") || "";
-    const address1 = localStorage.getItem("address") || "";
-
-    setId(id1);
-    setPhone(phone1);
-    setEmail(email1);
-    setAddress(address1);
+    setId(localStorage.getItem("id") || "");
+    setPhone(localStorage.getItem("phone") || "");
+    setEmail(localStorage.getItem("email") || "");
+    setAddress(localStorage.getItem("address") || "");
   }, []);
 
   const updateData = () => {
     axios
       .put(`${BACKEND_URL}/${id}`, {
         id,
+        phone,
         email,
         address,
       })
