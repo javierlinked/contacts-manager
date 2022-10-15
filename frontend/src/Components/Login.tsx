@@ -13,19 +13,13 @@ export default function Login() {
   useEffect(() => {
     axios.get(`${LOGIN_URL}/isFirstLogin`).then((response) => {
       setFirstLogin(response.data);
-
-      // eslint-disable-next-line no-console
-      console.log(response.data);
     });
   }, []);
-
   const label = `Welcome to simple secure contact manager. Please enter a
   password for your ${firstLogin ? "new " : ""}contact data file.`;
   const doLogin = async () => {
     const res = await axios.post(LOGIN_URL, { token: password });
     if (res.data === true) {
-      // eslint-disable-next-line no-console
-      console.log("OK");
       navigate("/list");
     } else {
       navigate("/login");

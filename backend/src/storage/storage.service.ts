@@ -39,13 +39,13 @@ export class StorageService {
     return 1;
   }
 
-  fileExists(): boolean {
-    let exists: boolean;
-    fs.stat(path.resolve(__dirname, this.#filePath)).catch(() => {
-      exists = false;
-    });
-    exists = true;
-    return exists;
+  async fileExists(): Promise<boolean> {
+    try {
+      await fs.access(path.resolve(__dirname, this.#filePath));
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   protected async readDb(): Promise<Contact[]> {

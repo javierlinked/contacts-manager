@@ -9,7 +9,7 @@ export class LoginService {
   ) {}
 
   async isFirstLogin(): Promise<boolean> {
-    return !this.storageService.fileExists();
+    return !(await this.storageService.fileExists());
   }
 
   async doLogin(token: string): Promise<boolean> {
