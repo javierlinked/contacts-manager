@@ -1,19 +1,21 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { Injectable, Logger } from '@nestjs/common';
 import { Contact } from 'src/contacts/entities/contact.entity';
 import { promises as fs } from 'fs';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+const Cryptr = require('cryptr');
 
 @Injectable()
 export class StorageService {
   #db: Contact[];
   #filePath = '../../storage/db.json.enc';
   #onSaving = false;
+  #crypt: typeof Cryptr;
 
-  constructor() {
-    this.readDb().then((res) => {
-      this.#db = res;
-    });
+  constructor(private readonly logger: Logger) {
+    this.#crypt = new Cryptr(
+      'this is a secret key and should be changed, but for now it is ok',
+    );
   }
 
   async getDb(): Promise<Contact[]> {
@@ -26,10 +28,8 @@ export class StorageService {
   async persistDatabase(db: Contact[]) {
     this.#onSaving = true;
     this.#db = db;
-    await fs.writeFile(
-      path.resolve(__dirname, this.#filePath),
-      JSON.stringify(db),
-    );
+    const ecrypedData = this.#crypt.encrypt(JSON.stringify(db));
+    await fs.writeFile(path.resolve(__dirname, this.#filePath), ecrypedData);
     this.#onSaving = false;
   }
 
@@ -41,23 +41,35 @@ export class StorageService {
     return 1;
   }
 
+  fileExists(): boolean {
+    let exists: boolean;
+    fs.stat(path.resolve(__dirname, this.#filePath)),
+      (err) => {
+        if (err == null) {
+          exists = true;
+        } else if (err.code === 'ENOENT') {
+          exists = false;
+        } else {
+          this.logger.warn('Some other error: ', err.code);
+        }
+      };
+    return exists;
+  }
+
+  async createDBFile(): Promise<void> {
+    await this.persistDatabase([]);
+  }
+
   protected async readDb(): Promise<Contact[]> {
     try {
       const data = await fs.readFile(
         path.resolve(__dirname, this.#filePath),
         'utf8',
       );
-      return JSON.parse(data);
+      const decryptedData = this.#crypt.decrypt(data);
+      return JSON.parse(decryptedData);
     } catch (e) {
       return [];
     }
-
-    // const res = await fs.readFile(path.resolve(__dirname, this.#filePath), {
-    //   encoding: 'utf8',
-    // });
-    // if (res) {
-    //   return JSON.parse(res);
-    // }
-    // return [];
   }
 }

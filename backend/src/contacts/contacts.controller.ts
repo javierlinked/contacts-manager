@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { Contact } from './entities/contact.entity';
@@ -15,7 +16,7 @@ export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
-  create(@Body() createContactDto: Contact) {
+  create(@Body() createContactDto: Contact): Promise<void> {
     return this.contactsService.create(createContactDto);
   }
 
@@ -35,7 +36,12 @@ export class ContactsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: number): Promise<void> {
     return this.contactsService.remove(+id);
+  }
+
+  @Get('/search/:q')
+  async search(@Param('q') q: string): Promise<Contact[]> {
+    return await this.contactsService.search(q);
   }
 }

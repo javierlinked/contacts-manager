@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextArea, Form, Label } from "semantic-ui-react";
 
-import { BACKEND_URL } from "../constants";
+import { CONTACTS_URL } from "../constants";
 
 export default function Create() {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function Create() {
   const [address, setAddress] = useState("");
   const postData = () => {
     axios
-      .post(BACKEND_URL, {
+      .post(CONTACTS_URL, {
         phone,
         email,
         address,

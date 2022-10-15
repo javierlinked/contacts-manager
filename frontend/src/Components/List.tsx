@@ -1,16 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Table } from "semantic-ui-react";
+import { Button, Input, Table } from "semantic-ui-react";
 
-import { BACKEND_URL } from "../constants";
+import { CONTACTS_URL } from "../constants";
 import type { Contact } from "../types";
 
 export default function List() {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get(BACKEND_URL).then((response) => {
+    axios.get(CONTACTS_URL).then((response) => {
       setData(response.data);
     });
   }, []);
@@ -23,14 +24,20 @@ export default function List() {
     localStorage.setItem("address", address);
   };
 
+  const onSearch = () => {
+    axios.get(`${CONTACTS_URL}/search/${search}`).then((response) => {
+      setData(response.data);
+    });
+  };
+
   const getData = () => {
-    axios.get(BACKEND_URL).then((c) => {
+    axios.get(CONTACTS_URL).then((c) => {
       setData(c.data);
     });
   };
 
   const onDelete = (id: string) => {
-    axios.delete(`${BACKEND_URL}/${id}`).then(() => {
+    axios.delete(`${CONTACTS_URL}/${id}`).then(() => {
       getData();
     });
   };
@@ -39,8 +46,16 @@ export default function List() {
     <div>
       <div>
         <Link to="/create">
-          <Button> New contact </Button>
+          <Button>New contact</Button>
         </Link>
+      </div>
+      <div>
+        <Input
+          icon="search"
+          placeholder="Search..."
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button onClick={onSearch}>Search</Button>
       </div>
       <Table singleLine>
         <Table.Header>
@@ -68,7 +83,6 @@ export default function List() {
                     <Button onClick={() => setLocalData(contact)}> ✍ </Button>
                   </Link>
                 </Table.Cell>
-
                 <Table.Cell>
                   <Button onClick={() => onDelete(contact.id)}> 🗑 </Button>
                 </Table.Cell>

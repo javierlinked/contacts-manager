@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, Label, TextArea } from "semantic-ui-react";
 
-import { BACKEND_URL } from "../constants";
+import { CONTACTS_URL } from "../constants";
 
 export default function Edit() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Edit() {
 
   const updateData = () => {
     axios
-      .put(`${BACKEND_URL}/${id}`, {
+      .put(`${CONTACTS_URL}/${id}`, {
         id,
         phone,
         email,

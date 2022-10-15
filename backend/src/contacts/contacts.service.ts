@@ -1,10 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { StorageService } from 'src/storage/storage.service';
 import { Contact } from './entities/contact.entity';
 
 @Injectable()
 export class ContactsService {
-  constructor(private readonly storageService: StorageService) {}
+  constructor(
+    private readonly storageService: StorageService,
+    private readonly logger: Logger,
+  ) {}
 
   async create(createContactDto: Contact) {
     const db = await this.storageService.getDb();
@@ -12,7 +15,7 @@ export class ContactsService {
     await this.storageService.persistDatabase([...db, createContactDto]);
   }
 
-  async findAll() {
+  async findAll(): Promise<Contact[]> {
     return await this.storageService.getDb();
   }
 
@@ -20,7 +23,7 @@ export class ContactsService {
     return (await this.storageService.getDb()).find((x) => x.id === id);
   }
 
-  async update(id: number, updateContactDto: Contact) {
+  async update(id: number, updateContactDto: Contact): Promise<void> {
     const db = await this.storageService.getDb();
     const temp = db.filter((x) => x.id != id);
     await this.storageService.persistDatabase([...temp, updateContactDto]);
@@ -29,5 +32,15 @@ export class ContactsService {
   async remove(id: number) {
     const temp = (await this.storageService.getDb()).filter((x) => x.id != id);
     await this.storageService.persistDatabase(temp);
+  }
+
+  async search(q: string): Promise<Contact[]> {
+    this.logger.verbose(`Searching for ${q}`);
+    const result = (await this.storageService.getDb()).filter((x) => {
+      return (
+        x.phone.includes(q) || x.email.includes(q) || x.address.includes(q)
+      );
+    });
+    return result;
   }
 }
