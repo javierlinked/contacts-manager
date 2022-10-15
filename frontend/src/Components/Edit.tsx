@@ -1,32 +1,30 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Form, Input, Label } from "semantic-ui-react";
+import { Button, Form, Input, Label, TextArea } from "semantic-ui-react";
 
-import { BACKEND_URL } from "../constants";
+import { CONTACTS_URL } from "../constants";
 
 export default function Edit() {
   const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [id, setId] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
   useEffect(() => {
-    const id1 = localStorage.getItem("id") || "";
-    const email1 = localStorage.getItem("email") || "";
-    const address1 = localStorage.getItem("address") || "";
-    // eslint-disable-next-line no-console
-    console.log(address1);
-    setId(id1);
-    setEmail(email1);
-    setAddress(address1);
+    setId(localStorage.getItem("id") || "");
+    setPhone(localStorage.getItem("phone") || "");
+    setEmail(localStorage.getItem("email") || "");
+    setAddress(localStorage.getItem("address") || "");
   }, []);
 
   const updateData = () => {
     axios
-      .put(`${BACKEND_URL}/${id}`, {
+      .put(`${CONTACTS_URL}/${id}`, {
         id,
+        phone,
         email,
         address,
       })
@@ -35,9 +33,19 @@ export default function Edit() {
       });
   };
   return (
-    <div>
+    <div id="Edit">
       <h1>Contact {id}</h1>
       <Form className="edit-form">
+        <Form.Field>
+          <Label>
+            phone
+            <Input
+              placeholder="phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </Label>
+        </Form.Field>
         <Form.Field>
           <Label>
             email
@@ -51,7 +59,7 @@ export default function Edit() {
         <Form.Field>
           <Label>
             address
-            <Input
+            <TextArea
               placeholder="Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
