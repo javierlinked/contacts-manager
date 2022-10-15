@@ -7,44 +7,50 @@ import { LOGIN_URL } from "../constants";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
+  const [firstLogin, setFirstLogin] = useState([]);
   const [password, setPassword] = useState("");
 
   useEffect(() => {
     axios.get(`${LOGIN_URL}/isFirstLogin`).then((response) => {
-      setData(response.data);
+      setFirstLogin(response.data);
 
       // eslint-disable-next-line no-console
       console.log(response.data);
     });
   }, []);
 
-  const doLogin = () => {
-    axios.post(LOGIN_URL, { token: password }).then(() => {
+  const label = `Welcome to simple secure contact manager. Please enter a
+  password for your ${firstLogin ? "new " : ""}contact data file.`;
+  const doLogin = async () => {
+    const res = await axios.post(LOGIN_URL, { token: password });
+    if (res.data === true) {
+      // eslint-disable-next-line no-console
+      console.log("OK");
       navigate("/list");
-    });
+    } else {
+      navigate("/login");
+    }
   };
 
-  const label = `Welcome to simple secure contact manager. Please enter a
-  password for your ${data ? "new " : ""}contact data file.`;
-
   return (
-    <fieldset>
-      <Form>
-        <Form.Field>
-          <Label>
-            {label}
-            <Input
-              placeholder="password"
-              type="password"
-              icon="lock"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </Label>
-        </Form.Field>
-        <Button>Close</Button>
-        <Button onClick={doLogin}>OK</Button>
-      </Form>
-    </fieldset>
+    <div id="login">
+      <fieldset>
+        <Form>
+          <Form.Field>
+            <Label>
+              {label}
+              <Input
+                placeholder="password"
+                type="password"
+                icon="lock"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Label>
+          </Form.Field>
+          <Button>Close</Button>
+          <Button onClick={doLogin}>OK</Button>
+        </Form>
+      </fieldset>
+    </div>
   );
 }

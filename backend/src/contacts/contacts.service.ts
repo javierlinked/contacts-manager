@@ -11,7 +11,7 @@ export class ContactsService {
 
   async create(createContactDto: Contact) {
     const db = await this.storageService.getDb();
-    createContactDto.id = this.storageService.getNextId();
+    createContactDto.id = await this.storageService.getNextId();
     await this.storageService.persistDatabase([...db, createContactDto]);
   }
 

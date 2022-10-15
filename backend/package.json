@@ -1,8 +1,11 @@
 {
-  "name": "backend",
+  "name": "backend-contacts-manager",
   "version": "1.0.0",
   "description": "",
-  "author": "@javierlinked",
+  "author": {
+    "name": "Javier Rojo",
+    "email": "javierlinked@gmail.com"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

@@ -1,7 +1,11 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "frontend-contacts-manager",
+  "version": "1.0.0",
   "private": true,
+  "author": {
+    "name": "Javier Rojo",
+    "email": "javierlinked@gmail.com"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

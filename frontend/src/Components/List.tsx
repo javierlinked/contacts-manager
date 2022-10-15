@@ -43,7 +43,7 @@ export default function List() {
   };
 
   return (
-    <div>
+    <div id="list">
       <div>
         <Link to="/create">
           <Button>New contact</Button>

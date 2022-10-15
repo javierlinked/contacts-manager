@@ -23,40 +23,42 @@ export default function Create() {
       });
   };
   return (
-    <fieldset>
-      <Form>
-        <Form.Field>
-          <Label>
-            Phone
-            <input
-              placeholder="Phone"
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </Label>
-        </Form.Field>
-        <Form.Field>
-          <Label>
-            Email
-            <input
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </Label>
-        </Form.Field>
-        <Form.Field>
-          <Label>
-            Address
-            <TextArea
-              placeholder="Address"
-              style={{ minHeight: 100 }}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-          </Label>
-        </Form.Field>
-        <Button onClick={postData} type="submit">
-          Submit
-        </Button>
-      </Form>
-    </fieldset>
+    <div id="create">
+      <fieldset>
+        <Form>
+          <Form.Field>
+            <Label>
+              Phone
+              <input
+                placeholder="Phone"
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </Label>
+          </Form.Field>
+          <Form.Field>
+            <Label>
+              Email
+              <input
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Label>
+          </Form.Field>
+          <Form.Field>
+            <Label>
+              Address
+              <TextArea
+                placeholder="Address"
+                style={{ minHeight: 100 }}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+            </Label>
+          </Form.Field>
+          <Button onClick={postData} type="submit">
+            Submit
+          </Button>
+        </Form>
+      </fieldset>
+    </div>
   );
 }

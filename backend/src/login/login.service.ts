@@ -15,9 +15,11 @@ export class LoginService {
   async doLogin(token: string): Promise<boolean> {
     if (token === '123456') {
       this.logger.log('Login successful');
-
       await this.storageService.getDb();
       return true;
+    } else {
+      this.logger.log('Login failed');
+      return false;
     }
   }
 }

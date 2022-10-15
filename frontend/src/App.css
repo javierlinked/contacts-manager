@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+body {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 1.5;
+  line-height: 1.5;
+  color: #292b2c;
+  background-color: #fff;
+}
+
+#login, #create, #edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
