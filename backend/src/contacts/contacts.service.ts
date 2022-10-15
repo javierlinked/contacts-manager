@@ -4,13 +4,12 @@ import { Contact } from './entities/contact.entity';
 
 @Injectable()
 export class ContactsService {
-  
-  constructor(private readonly storageService: StorageService) {  }
+  constructor(private readonly storageService: StorageService) {}
 
   async create(createContactDto: Contact) {
     const db = await this.storageService.getDb();
     createContactDto.id = this.storageService.getNextId();
-    this.storageService.setDatabase([...db, createContactDto]);
+    await this.storageService.persistDatabase([...db, createContactDto]);
   }
 
   async findAll() {
@@ -18,19 +17,17 @@ export class ContactsService {
   }
 
   async findOne(id: number): Promise<Contact> {
-    return (await this.storageService.getDb()).find(x => x.id === id);
+    return (await this.storageService.getDb()).find((x) => x.id === id);
   }
 
   async update(id: number, updateContactDto: Contact) {
     const db = await this.storageService.getDb();
-    const temp = db.filter(x => x.id != id);
-    this.storageService.setDatabase( [...temp, updateContactDto]);
+    const temp = db.filter((x) => x.id != id);
+    await this.storageService.persistDatabase([...temp, updateContactDto]);
   }
 
   async remove(id: number) {
-    const temp = (await this.storageService.getDb()).filter(x => x.id != id);
-    this.storageService.setDatabase(temp);
+    const temp = (await this.storageService.getDb()).filter((x) => x.id != id);
+    await this.storageService.persistDatabase(temp);
   }
-
-
 }
