@@ -1,3 +1,18 @@
+/**
+ * Checks if the user has logged in before.
+ * @returns boolean
+ */
+async isFirstLogin(): Promise<boolean> {
+  return !(await this.storageService.fileExists());
+}
+
+/**
+ * Checks if the token is correct and logs in the user if it is.
+ * @param token string
+ * @returns boolean
+ */
+async doLogin(token: string): Promise<boolean> {
+  if (token === '
 import { Injectable, Logger } from '@nestjs/common';
 import { StorageService } from 'src/storage/storage.service';
 

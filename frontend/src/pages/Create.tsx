@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from 'next/router'
 import { Button, TextArea, Form, Label } from "semantic-ui-react";
 
-import { CONTACTS_URL } from "../constants";
+import { CONTACTS_URL } from "../../constants";
 
 export default function Create() {
   const router = useRouter();

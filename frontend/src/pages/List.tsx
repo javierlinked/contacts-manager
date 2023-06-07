@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Link from 'next/link'
 import { Button, Input, Table } from "semantic-ui-react";
 
-import { CONTACTS_URL } from "../constants";
-import type { Contact } from "../types";
+import { CONTACTS_URL } from "../../constants";
+import type { Contact } from "../../types";
 
 export default function List() {
   const [data, setData] = useState([]);

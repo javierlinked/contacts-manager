@@ -2,8 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/router'
 import { Button, Form, Input, Label } from "semantic-ui-react";
-
-import { LOGIN_URL } from "../constants";
+import { LOGIN_URL } from "../../constants";
 
 export default function Login() {
   const router = useRouter();
@@ -15,8 +14,7 @@ export default function Login() {
       setFirstLogin(response.data);
     });
   }, []);
-  const label = `Welcome to simple secure contact manager. Please enter a
-  password for your ${firstLogin ? "new " : ""}contact data file.`;
+  const label = `Welcome to simple secure contact manager. Please enter a password for your ${firstLogin ? "new " : ""}contact data file.`;
   const doLogin = async () => {
     const res = await axios.post(LOGIN_URL, { token: password });
     if (res.data === true) {
